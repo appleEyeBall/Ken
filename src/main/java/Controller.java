@@ -18,9 +18,6 @@ public class Controller implements EventHandler{
     MenuItem exitMenuItem;
     Button startGameBtn;
 
-    int width = 750;
-    int height = 450;
-
 
     public Controller(Stage primaryStage){
         this.primaryStage = primaryStage;
@@ -50,7 +47,7 @@ public class Controller implements EventHandler{
         gameScene.getChildren().add(gameMenuBar);
 
         primaryStage.setTitle("Keno Game");
-        primaryStage.setScene(new Scene(welcomeScene, width, height));
+        primaryStage.setScene(new Scene(welcomeScene,Util.width, Util.height));
         primaryStage.show();
     }
 
@@ -62,7 +59,8 @@ public class Controller implements EventHandler{
 
         }
         else if (event.getSource() == startGameBtn){
-            primaryStage.setScene(new Scene(gameScene,width,height));
+            primaryStage.setScene(new Scene(gameScene,Util.width,Util.height));
+            GameSceneController gameSceneController = new GameSceneController(gameScene);
 
         }
         else {
@@ -96,7 +94,6 @@ public class Controller implements EventHandler{
         menuBar.getMenus().add(welcomeMenu);
 
         return menuBar;
-        // commit
 
     }
 
