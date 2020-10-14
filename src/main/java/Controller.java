@@ -1,10 +1,7 @@
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -20,7 +17,6 @@ public class Controller implements EventHandler{
 
     int width = 750;
     int height = 450;
-
 
     public Controller(Stage primaryStage){
         this.primaryStage = primaryStage;
@@ -57,6 +53,7 @@ public class Controller implements EventHandler{
     public void handle(Event event) {
         if (event.getSource() == rulesMenuItem){
 
+
         }
         else if (event.getSource() == oddsMenuItem){
 
@@ -68,7 +65,6 @@ public class Controller implements EventHandler{
         else {
             primaryStage.close();
         }
-
 
     }
 
@@ -91,7 +87,6 @@ public class Controller implements EventHandler{
         // add the menu items to menu
         welcomeMenu.getItems().addAll(rulesMenuItem, oddsMenuItem, exitMenuItem);
 
-
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().add(welcomeMenu);
 
@@ -100,6 +95,15 @@ public class Controller implements EventHandler{
 
     }
 
-//TODO: create popup window for rules in window scene
+    //TODO: create popup window for rules in window scene
+    public void displayRules(){
 
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Rules ");
+        alert.setHeaderText("Information Alert");
+        String s ="This is an example of JavaFX 8 Dialogs... ";
+        alert.setContentText(s);
+        alert.show();
+
+    }
 }
