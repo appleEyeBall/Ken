@@ -9,7 +9,10 @@ public class GameSceneController implements EventHandler {
     VBox gameScene;
     HBox headerRow;
     HBox footerRow;
+    HBox spotsBox;
     HBox drawingsRow;
+    HBox betCardContainer;
+    GridPane betCard;
     Button continueBtn;
     Button playAgainBtn;
     Label scoreLabel;
@@ -22,8 +25,12 @@ public class GameSceneController implements EventHandler {
         createHeaderRow();
         createDrawingsRow();
         createFooterRow();
+        createSpotsRow();
+        createBetCard();
         this.gameScene.getChildren().add(headerRow);
+        this.gameScene.getChildren().add(spotsBox);
         this.gameScene.getChildren().add(drawingsRow);
+        this.gameScene.getChildren().add(betCardContainer);
         this.gameScene.getChildren().add(footerRow);
         this.gameScene.setSpacing(Util.spaceBtwRows);
 
@@ -76,5 +83,30 @@ public class GameSceneController implements EventHandler {
         footerRow.getChildren().addAll(chooseRandomBtn, nextDrawBtn);
         footerRow.setPadding(new Insets(0, Util.sidePadding,0, Util.sidePadding));
         footerRow.setSpacing(50);
+    }
+
+    public void createSpotsRow (){
+        /* Create the row where you pick spots*/
+        Label spotsLabel = new Label("Number of spots: ");
+        spotsBox = new HBox();
+        ChoiceBox numberOfSpots = new ChoiceBox();
+        numberOfSpots.getItems().addAll("1","4","8","10");
+        spotsBox.getChildren().add(spotsLabel);
+        spotsBox.getChildren().add(numberOfSpots);
+        spotsBox.setAlignment(Pos.BASELINE_LEFT);
+        spotsBox.setPadding(new Insets(0,Util.sidePadding,0,Util.sidePadding));
+    }
+
+    public void createBetCard(){
+        betCardContainer = new HBox();
+        betCard = new GridPane();
+        for(int i=1;i<9;i++){
+            for(int j=1; j<11; j++){
+                String buttonName = Integer.toString(i*j);
+                betCard.add(new Button(buttonName), i,j);
+
+            }
+        }
+        betCardContainer.getChildren().add(betCard);
     }
 }

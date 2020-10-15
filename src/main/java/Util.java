@@ -1,7 +1,7 @@
 public class Util {
 
     static int width = 750;
-    static int height = 450;
+    static int height = 500;
     static int spaceBtwRows = 15;
     static int sidePadding = 10;
 
