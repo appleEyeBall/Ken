@@ -11,13 +11,7 @@ public class Controller implements EventHandler{
     AnchorPane gameScene;
     Stage primaryStage;
     Menu newLookMenu;
-//    MenuItem rulesMenuItem;
-//    MenuItem oddsMenuItem;
-//    MenuItem exitMenuItem;
     Button startGameBtn;
-
-    int width = 750;
-    int height = 450;
 
     public Controller(Stage primaryStage){
         this.primaryStage = primaryStage;
@@ -48,14 +42,15 @@ public class Controller implements EventHandler{
         gameScene.getChildren().add(gameMenuBar);
 
         primaryStage.setTitle("Keno Game");
-        primaryStage.setScene(new Scene(welcomeScene, width, height));
+        primaryStage.setScene(new Scene(welcomeScene, Util.width, Util.height));
         primaryStage.show();
     }
 
+    //
     public void handle(Event event) {
-        //System.out.println(((Node) event.getSource()).getId());
+
         if (event.getSource() == startGameBtn){
-            primaryStage.setScene(new Scene(gameScene,width,height));
+            primaryStage.setScene(new Scene(gameScene,Util.width,Util.height));
 
         }
         else if (((MenuItem)event.getSource()).getId() == "rulesBtn"){
@@ -98,7 +93,7 @@ public class Controller implements EventHandler{
 
     }
 
-    //Display the Rules and Odds of winning using this function
+    //Display the Rules and Odds of winning using an alert
     public void displayGameInfo(String message, String menuInfo){
 
         Alert alert = new Alert(Alert.AlertType.NONE);
