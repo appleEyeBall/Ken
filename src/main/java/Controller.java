@@ -4,11 +4,12 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Controller implements EventHandler{
     AnchorPane welcomeScene;
-    AnchorPane gameScene;
+    VBox gameScene;
     Stage primaryStage;
     Menu newLookMenu;
     Button startGameBtn;
@@ -17,12 +18,17 @@ public class Controller implements EventHandler{
         this.primaryStage = primaryStage;
         this.setSceneUp();
         startGameBtn.setOnAction(this);
+
+        //TODO: delete these 2 lines of code. They make it so
+        // I don't have to click to go tho game screen
+        primaryStage.setScene(new Scene(gameScene,Util.width,Util.height));
+        GameSceneController gameSceneController = new GameSceneController(gameScene);
     }
 
 
     private void setSceneUp(){
         welcomeScene = new AnchorPane();
-        gameScene = new AnchorPane();
+        gameScene = new VBox();
         newLookMenu = new Menu("New Look");
         newLookMenu.setId("newLookMenu");
 
