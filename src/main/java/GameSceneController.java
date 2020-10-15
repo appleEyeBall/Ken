@@ -1,22 +1,38 @@
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
 
 public class GameSceneController implements EventHandler {
-    AnchorPane gameScene;
-    VBox parentRoot;
+    VBox gameScene;
+    HBox firstRow;
+    Button continueBtn;
+    Button playAgainBtn;
+    Label scoreLabel;
+    Label scoreValue;
 
-    public GameSceneController(AnchorPane gameScene) {
+    public GameSceneController(VBox gameScene) {
         this.gameScene = gameScene;
-        parentRoot = new VBox();
-        parentRoot.setMinWidth(Util.width);
-        parentRoot.setMinHeight(Util.height);
-//        gameScene.getChildren().add(parentRoot);
+        firstRow = new HBox();
+        createFirstRow();
+        this.gameScene.getChildren().add(firstRow);
+
     }
 
     public void handle(Event event) {
+
+    }
+
+    public void createFirstRow(){
+        continueBtn = new Button("Continue");
+        playAgainBtn = new Button("Play again");
+        scoreLabel = new Label("Score");
+        scoreValue = new Label("$7200");
+
+        Node[] nodes = {continueBtn, playAgainBtn, scoreLabel, scoreValue};
+        firstRow.getChildren().addAll(nodes);
 
     }
 }

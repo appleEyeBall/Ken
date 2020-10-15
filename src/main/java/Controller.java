@@ -6,11 +6,12 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Controller implements EventHandler{
     AnchorPane welcomeScene;
-    AnchorPane gameScene;
+    VBox gameScene;
     Stage primaryStage;
     Menu newLookMenu;
     MenuItem rulesMenuItem;
@@ -28,7 +29,7 @@ public class Controller implements EventHandler{
 
     private void setSceneUp(){
         welcomeScene = new AnchorPane();
-        gameScene = new AnchorPane();
+        gameScene = new VBox();
         newLookMenu = new Menu("New Look");
 
 
