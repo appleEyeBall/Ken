@@ -2,7 +2,6 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
@@ -14,14 +13,18 @@ public class GameSceneController implements EventHandler {
     Label scoreLabel;
     Label scoreValue;
     HBox spotsBox;
+    GridPane betCard;  //Bet card
 
     public GameSceneController(VBox gameScene) {
         this.gameScene = gameScene;
         firstRow = new HBox();
         createFirstRow();
         createSpotsRow();
+        createBetCard();
         this.gameScene.getChildren().add(firstRow);
         this.gameScene.getChildren().add(spotsBox);
+        this.gameScene.getChildren().add(betCard);
+
 
     }
 
@@ -60,5 +63,17 @@ public class GameSceneController implements EventHandler {
         spotsBox.setPadding(new Insets(0,Util.sidePadding,0,Util.sidePadding));
     }
 
+    public void createBetCard(){
 
+        betCard = new GridPane();
+        for(int i=1;i<9;i++){
+            for(int j=1; j<11; j++){
+                String buttonName = Integer.toString(i*j);
+                betCard.add(new Button(buttonName), i,j);
+
+            }
+        }
+
+
+    }
 }
