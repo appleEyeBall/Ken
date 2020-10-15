@@ -1,5 +1,6 @@
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -10,9 +11,9 @@ public class Controller implements EventHandler{
     AnchorPane gameScene;
     Stage primaryStage;
     Menu newLookMenu;
-    MenuItem rulesMenuItem;
-    MenuItem oddsMenuItem;
-    MenuItem exitMenuItem;
+//    MenuItem rulesMenuItem;
+//    MenuItem oddsMenuItem;
+//    MenuItem exitMenuItem;
     Button startGameBtn;
 
     int width = 750;
@@ -21,7 +22,7 @@ public class Controller implements EventHandler{
     public Controller(Stage primaryStage){
         this.primaryStage = primaryStage;
         this.setSceneUp();
-        this.setEventHandlers();
+        startGameBtn.setOnAction(this);
     }
 
 
@@ -29,6 +30,7 @@ public class Controller implements EventHandler{
         welcomeScene = new AnchorPane();
         gameScene = new AnchorPane();
         newLookMenu = new Menu("New Look");
+        newLookMenu.setId("newLookMenu");
 
 
         startGameBtn = new Button();
@@ -51,37 +53,38 @@ public class Controller implements EventHandler{
     }
 
     public void handle(Event event) {
-        if (event.getSource() == rulesMenuItem){
-
-
-        }
-        else if (event.getSource() == oddsMenuItem){
-
-        }
-        else if (event.getSource() == startGameBtn){
+        //System.out.println(((Node) event.getSource()).getId());
+        if (event.getSource() == startGameBtn){
             primaryStage.setScene(new Scene(gameScene,width,height));
 
         }
+        else if (((MenuItem)event.getSource()).getId() == "rulesBtn"){
+            displayGameInfo("Rules for the game:",Util.gameRules );
+        }
+        else if (((MenuItem)event.getSource()).getId() == "oddsBtn"){
+            displayGameInfo("Odds of Winning the Game:",Util.oddsOfWinning);
+        }
+
         else {
             primaryStage.close();
         }
 
     }
 
-    private void setEventHandlers(){
-        exitMenuItem.setOnAction(this);
-        startGameBtn.setOnAction(this);
-        oddsMenuItem.setOnAction(this);
-        rulesMenuItem.setOnAction(this);
-
-    }
-
     private MenuBar createMenuBar(){
-
         // create menu items
-        rulesMenuItem = new MenuItem("Display the rules of the game");
-        oddsMenuItem = new MenuItem("Display the odds of winning");
-        exitMenuItem = new MenuItem("Exit game");
+        MenuItem rulesMenuItem = new MenuItem("Display the rules of the game");
+        MenuItem oddsMenuItem = new MenuItem("Display the odds of winning");
+        MenuItem exitMenuItem = new MenuItem("Exit game");
+
+        rulesMenuItem.setId("rulesBtn");
+        oddsMenuItem.setId("oddsBtn");
+        exitMenuItem.setId("exitBtn");
+
+
+        rulesMenuItem.setOnAction(this);
+        oddsMenuItem.setOnAction(this);
+        exitMenuItem.setOnAction(this);
 
         Menu welcomeMenu = new Menu("Menu");
         // add the menu items to menu
@@ -95,15 +98,16 @@ public class Controller implements EventHandler{
 
     }
 
-    //TODO: create popup window for rules in window scene
-    public void displayRules(){
+    //Display the Rules and Odds of winning using this function
+    public void displayGameInfo(String message, String menuInfo){
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Rules ");
-        alert.setHeaderText("Information Alert");
-        String s ="This is an example of JavaFX 8 Dialogs... ";
-        alert.setContentText(s);
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle(message);
+        alert.setContentText(menuInfo);
         alert.show();
+        alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
 
     }
+
+
 }
