@@ -1,3 +1,5 @@
+import javafx.scene.paint.Color;
+
 public class Util {
 
     static int width = 750;
@@ -5,7 +7,10 @@ public class Util {
     static int spaceBtwRows = 15;
     static int sidePadding = 10;
     static int drawingBoxLeftPadding = 410;
-    static int betCardLeftPadding = width/4;
+    // these values are user as color types
+    static String user = "user";
+    static String computer = "computer";
+    static String intercept = "intercept";
 
     static String gameRules = "The game of Keno is played by picking a set of numbers between 1 and 80. From there, 20 " +
             "numbers are drawn randomly. If the numbers drawn match the numbers you selected, you win. The amount of numbers " +

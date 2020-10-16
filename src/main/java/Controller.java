@@ -8,6 +8,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+// TODO: Create new look menu in GameSceneController, and pass the menuBar into GameSceneController
+// TODO: Compartmentalize variables use less of parameter passings
 public class Controller implements EventHandler{
     Pane welcomeScene;
     VBox gameScene;
