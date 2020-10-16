@@ -9,7 +9,8 @@ import java.util.Set;
 //TODO: create a set for the buttons event
 //TODO: randomly choose 'spots' number of items
 public class BetCardController implements EventHandler {
-    HashSet<Integer> bets = new HashSet<Integer>();
+    HashSet<Integer> bets  = new HashSet<Integer>();
+    HashSet<Integer> drawSelections  = new HashSet<Integer>();
     private int numberOfSpots;
     private int numberOfDraws;
 
@@ -19,10 +20,9 @@ public class BetCardController implements EventHandler {
         this.numberOfDraws = Integer.valueOf(numberOfDraws);
 
     }
-    public BetCardController() {
+    public void clearAll(){
 
     }
-
 
     public void handle(Event event) {
 
@@ -31,7 +31,11 @@ public class BetCardController implements EventHandler {
         }
         if(((Button) event.getSource()).getId() == "chooseRandomBtn"){
 
-            pickRandomSpots(event);
+            pickRandomSpots(numberOfSpots, bets);
+        }
+        if(((Button) event.getSource()).getId() == "nextDrawBtn"){
+
+            pickRandomSpots(20, drawSelections);
         }
 
 
@@ -46,25 +50,15 @@ public class BetCardController implements EventHandler {
         System.out.println(bets);
 
     }
-    public void pickRandomSpots(Event event){
-        bets.clear();
-        while(bets.size() < numberOfSpots){
+
+    public void pickRandomSpots(int howMany, Set set){
+        set.clear();
+        while(set.size() < howMany){
 
             int number = new Random().nextInt(80);
-            bets.add(number);
+            set.add(number);
         }
-        System.out.println(bets);
+        System.out.println(set);
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }
