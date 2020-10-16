@@ -1,5 +1,4 @@
 import javafx.event.Event;
-import javafx.event.EventDispatcher;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,7 +19,8 @@ public class GameSceneController implements EventHandler {
     HBox drawingsRow;
     static public GridPane betCard;
     HBox betCardContainer;  //Bet card
-    ChoiceBox drawingsValueChoices;
+    ChoiceBox numberOfSpots;
+    ChoiceBox drawingsValue;
     BetCardController betCardController;
 
 
@@ -44,10 +44,15 @@ public class GameSceneController implements EventHandler {
     }
 
     public void handle(Event event) {
+        // numberOfSpotsEvent
         if (event.getSource() instanceof ChoiceBox && ((ChoiceBox) event.getSource()).getId() == "spots"){
-            ChoiceBox box = (ChoiceBox) event.getSource();
+            betCardController.setUpVariables(numberOfSpots.getValue().toString(), drawingsValue.getValue().toString() );
             betCard.setDisable(false);
-            System.out.println(box.getValue());
+
+        }
+        //drawingsEvent
+        else if (event.getSource() instanceof ChoiceBox && ((ChoiceBox) event.getSource()).getId() == "drawings"){
+            ChoiceBox box = (ChoiceBox) event.getSource();
 
         }
 
@@ -76,7 +81,7 @@ public class GameSceneController implements EventHandler {
 
         Label spotsLabel = new Label("Number of spots: ");
         spotsBox = new HBox();
-        ChoiceBox numberOfSpots = new ChoiceBox();
+        numberOfSpots = new ChoiceBox();
         numberOfSpots.setId("spots");
 
         numberOfSpots.getItems().addAll("1","4","8","10");
@@ -87,31 +92,34 @@ public class GameSceneController implements EventHandler {
         numberOfSpots.setOnAction(this);
 
     }
-public void createDrawingsRow() {
+    public void createDrawingsRow() {
         /* The row that number of drawings label and all */
         drawingsRow = new HBox();
         Label drawingsLabel = new Label("Number of Drawings:  ");
-        drawingsValueChoices = new ChoiceBox();
+        drawingsValue = new ChoiceBox();
 
-        drawingsValueChoices.getItems().addAll("1", "2", "3", "4");
+        drawingsValue.getItems().addAll("1", "2", "3", "4");
+        drawingsValue.setValue("1");
 
-        drawingsValueChoices.setId("drawings");
+        drawingsValue.setId("drawings");
         drawingsRow.setPadding(new Insets(0, 10, 0, Util.sidePadding));
-        drawingsRow.getChildren().addAll(drawingsLabel, drawingsValueChoices);
-        }
+        drawingsRow.getChildren().addAll(drawingsLabel, drawingsValue);
+    }
 
-public void createFooterRow() {
+    public void createFooterRow() {
         /* The row that is at the very bottom*/
         footerRow = new HBox();
-        Button chooseRandomBtn = new Button("Choose spot randomly");
+        Button chooseRandomBtn = new Button("Choose spots randomly");
         chooseRandomBtn.setId("chooseRandomBtn");
+
+        chooseRandomBtn.setOnAction(betCardController);
         Button nextDrawBtn = new Button("Next Draw");
         nextDrawBtn.setId("nextDrawBtn");
 
         footerRow.getChildren().addAll(chooseRandomBtn, nextDrawBtn);
         footerRow.setPadding(new Insets(0, Util.sidePadding, 0, Util.sidePadding));
         footerRow.setSpacing(50);
-        }
+    }
 
     public void createBetCard(){
         betCardContainer = new HBox();
@@ -139,5 +147,3 @@ public void createFooterRow() {
 }
 
 //todo: enable betCard when no. of spots is selected
-
-
