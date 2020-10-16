@@ -21,7 +21,7 @@ public class Controller implements EventHandler{
 
         //TODO: delete these 2 lines of code. They make it so
         // I don't have to click to go tho game screen
-        primaryStage.setScene(new Scene(gameScene,Util.width,Util.height));
+//        primaryStage.setScene(new Scene(gameScene,Util.width,Util.height));
         GameSceneController gameSceneController = new GameSceneController(gameScene);
     }
 
