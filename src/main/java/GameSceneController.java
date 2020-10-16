@@ -18,7 +18,6 @@ public class GameSceneController implements EventHandler {
     HBox spotsBox;
     HBox drawingsRow;
     static public GridPane betCard;
-    HBox betCardContainer;  //Bet card
     ChoiceBox numberOfSpots;
     ChoiceBox drawingsValue;
     BetCardController betCardController;
@@ -36,7 +35,7 @@ public class GameSceneController implements EventHandler {
         this.gameScene.getChildren().add(firstRow);
         this.gameScene.getChildren().add(spotsBox);
         this.gameScene.getChildren().add(drawingsRow);
-        this.gameScene.getChildren().add(betCardContainer);
+        this.gameScene.getChildren().add(betCard);
         this.gameScene.getChildren().add(footerRow);
         this.gameScene.setSpacing(Util.spaceBtwRows);
 
@@ -55,6 +54,10 @@ public class GameSceneController implements EventHandler {
             ChoiceBox box = (ChoiceBox) event.getSource();
 
         }
+        else if (event.getSource() == playAgainBtn){
+            System.out.println("play again clicked");
+            betCardController = new BetCardController();
+        }
 
     }
 
@@ -64,6 +67,7 @@ public class GameSceneController implements EventHandler {
         HBox scoreBox = new HBox();     // will contain "Score: $7200"
         continueBtn = new Button("Continue");
         playAgainBtn = new Button("Play again");
+        playAgainBtn.setOnAction(this);
         scoreLabel = new Label("Score: ");
         scoreValue = new Label("$7200");
 
@@ -84,10 +88,14 @@ public class GameSceneController implements EventHandler {
         numberOfSpots = new ChoiceBox();
         numberOfSpots.setId("spots");
 
+        HBox drawingScoreBox = new HBox();      // will contain the drawing score
+        drawingScoreLabel = new Label("Drawing Score: ");
+        drawingScoreValue = new Label("$300");
+        drawingScoreBox.getChildren().addAll(drawingScoreLabel, drawingScoreValue);
+        drawingScoreBox.setPadding(new Insets(0,0,0,Util.drawingBoxLeftPadding));
+
         numberOfSpots.getItems().addAll("1","4","8","10");
-        spotsBox.getChildren().add(spotsLabel);
-        spotsBox.getChildren().add(numberOfSpots);
-        spotsBox.setAlignment(Pos.BASELINE_LEFT);
+        spotsBox.getChildren().addAll(spotsLabel, numberOfSpots, drawingScoreBox);
         spotsBox.setPadding(new Insets(0,Util.sidePadding,0,Util.sidePadding));
         numberOfSpots.setOnAction(this);
 
@@ -111,16 +119,17 @@ public class GameSceneController implements EventHandler {
         footerRow = new HBox();
         Button chooseRandomBtn = new Button("Choose spot randomly");
         chooseRandomBtn.setId("chooseRandomBtn");
+        chooseRandomBtn.setOnAction(betCardController);
         Button nextDrawBtn = new Button("Next Draw");
         nextDrawBtn.setId("nextDrawBtn");
+        nextDrawBtn.setOnAction(betCardController);
 
         footerRow.getChildren().addAll(chooseRandomBtn, nextDrawBtn);
-        footerRow.setPadding(new Insets(0, Util.sidePadding, 0, Util.sidePadding));
         footerRow.setSpacing(50);
+        footerRow.setAlignment(Pos.CENTER);
     }
 
     public void createBetCard(){
-        betCardContainer = new HBox();
         betCard = new GridPane();
         for(int i=0;i<10;i++){
             for(int j=0; j<8; j++){
@@ -131,15 +140,12 @@ public class GameSceneController implements EventHandler {
 //                button.setDisable(true);
 
                 betCard.add(button, j,i);
-
             }
         }
-        betCard.setDisable(true);
-        betCardContainer.getChildren().add(betCard);
-        drawingScoreLabel = new Label("Drawing Score: ");
-        drawingScoreValue = new Label("$300");
-        betCardContainer.getChildren().addAll(drawingScoreLabel, drawingScoreValue);
 
+
+        betCard.setDisable(true);
+        betCard.setAlignment(Pos.CENTER);
 
     }
 }

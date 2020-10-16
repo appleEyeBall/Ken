@@ -4,6 +4,8 @@ public class Util {
     static int height = 500;
     static int spaceBtwRows = 15;
     static int sidePadding = 10;
+    static int drawingBoxLeftPadding = 410;
+    static int betCardLeftPadding = width/4;
 
     static String gameRules = "The game of Keno is played by picking a set of numbers between 1 and 80. From there, 20 " +
             "numbers are drawn randomly. If the numbers drawn match the numbers you selected, you win. The amount of numbers " +
