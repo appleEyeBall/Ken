@@ -8,16 +8,22 @@ import java.util.Set;
 //TODO: create a set for the buttons event
 //TODO: randomly choose 'spots' number of items
 public class BetCardController implements EventHandler {
-    Set<String> bets  = new HashSet<String>();
-
+    HashSet<String> bets = new HashSet<String>();
     public BetCardController() {
 
     }
 
 
     public void handle(Event event) {
-        String label = ((Button) event.getSource()).getText();
-        System.out.println("Label is "+ label);
+        if (bets.size() <= 20){
+            String number = ((Button) event.getSource()).getText();
+            bets.add(number);
+        }
+        for( String betSpots : bets ) {
+            System.out.print(betSpots+" ");
+        }
+        System.out.println("\n");
+
 
 
 
