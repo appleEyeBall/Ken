@@ -115,7 +115,7 @@ public class GameSceneController implements EventHandler {
 
         numberOfSpots.getItems().addAll("1","4","8","10");
         spotsBox.getChildren().addAll(spotsLabel, numberOfSpots, drawingScoreBox);
-        spotsBox.setPadding(new Insets(0,Util.sidePadding,0,Util.sidePadding));
+        spotsBox.setPadding(new Insets(0,0,0,Util.sidePadding));
         numberOfSpots.setOnAction(this);
 
     }
