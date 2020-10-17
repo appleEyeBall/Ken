@@ -6,7 +6,7 @@ public class Util {
     static int height = 600;
     static int spaceBtwRows = 15;
     static int sidePadding = 10;
-    static int drawingBoxLeftPadding = 320;
+    static int drawingBoxLeftPadding = 410;
     // these values are user as color types
     static String user = "user";
     static String computer = "computer";
