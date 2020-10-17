@@ -10,7 +10,10 @@ public class Util {
     // these values are user as color types
     static String user = "user";
     static String computer = "computer";
-    static String intercept = "intercept";
+
+    static String controlsBtnPause = "Pause";
+    static String controlsBtnPlay = "Continue";
+
 
     static String gameRules = "The game of Keno is played by picking a set of numbers between 1 and 80. From there, 20 " +
             "numbers are drawn randomly. If the numbers drawn match the numbers you selected, you win. The amount of numbers " +

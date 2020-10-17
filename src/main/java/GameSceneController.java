@@ -27,14 +27,13 @@ public class GameSceneController implements EventHandler {
 
 
     public GameSceneController(VBox gameScene) {
-        this.gameScene = gameScene;
-        firstRow = new HBox();
-        betCardController = new BetCardController();
         createFirstRow();
         createSpotsRow();
         createDrawingsRow();
         createBetCard();
         createFooterRow();
+        this.gameScene = gameScene;
+        this.betCardController = new BetCardController(continueBtn, betCard);
         this.gameScene.getChildren().add(firstRow);
         this.gameScene.getChildren().add(spotsBox);
         this.gameScene.getChildren().add(drawingsRow);
@@ -48,7 +47,7 @@ public class GameSceneController implements EventHandler {
     public void handle(Event event) {
         // numberOfSpotsEvent
         if (event.getSource() instanceof ChoiceBox && ((ChoiceBox) event.getSource()).getId() == "spots"){
-            betCardController.setUpVariables(numberOfSpots.getValue().toString(), betCard );
+            betCardController.chooseSpots(numberOfSpots.getValue().toString());
             betCard.setDisable(false);
 
         }
@@ -62,10 +61,10 @@ public class GameSceneController implements EventHandler {
             betCardController.restart();
         }
         else if(((Button) event.getSource()).getId() == "chooseRandomBtn"){
-
             betCardController.pickRandomUserSpots();
         }
         else if(event.getSource() == nextDrawBtn){
+            //TODO: GARIMA: update scores here (maybe create a function to do that)
             nextDrawBtnPresses++;
             System.out.println("max is "+drawingsValue.getValue());
             System.out.println("num of draws is "+nextDrawBtnPresses);
@@ -83,13 +82,15 @@ public class GameSceneController implements EventHandler {
 
     public void createFirstRow(){
         /* Create the first row*/
+        firstRow = new HBox();
         HBox controlsBox = new HBox();  // will contain first 2 buttons
         HBox scoreBox = new HBox();     // will contain "Score: $7200"
-        continueBtn = new Button("Continue");
+        continueBtn = new Button("Pause");
         playAgainBtn = new Button("Play again");
+        continueBtn.setId("controls");
         playAgainBtn.setOnAction(this);
-        scoreLabel = new Label("Score: ");
-        scoreValue = new Label("$720");
+        scoreLabel = new Label("Score: $");
+        scoreValue = new Label("720");
 
         controlsBox.getChildren().addAll(continueBtn, playAgainBtn);
         scoreBox.getChildren().addAll(scoreLabel, scoreValue);
@@ -109,8 +110,8 @@ public class GameSceneController implements EventHandler {
         numberOfSpots.setId("spots");
 
         HBox drawingScoreBox = new HBox();      // will contain the drawing score
-        drawingScoreLabel = new Label("Drawing Score: ");
-        drawingScoreValue = new Label("$300");
+        drawingScoreLabel = new Label("Drawing Score: $");
+        drawingScoreValue = new Label("300");
         drawingScoreBox.getChildren().addAll(drawingScoreLabel, drawingScoreValue);
         drawingScoreBox.setPadding(new Insets(0,0,0,Util.drawingBoxLeftPadding));
 
@@ -155,13 +156,11 @@ public class GameSceneController implements EventHandler {
         betCard = new GridPane();
         for(int i=0;i<10;i++){
             for(int j=0; j<8; j++){
+                // TODO: GARIMA, delete this after reading. The handler for the grid buttons are no longer set in this class. Go to constructor of BetCardController
                 String buttonName = Integer.toString(i * 8+j+ 1);
                 Button button = new Button(buttonName);
-                button.setOnAction(betCardController);
                 button.setId("gridBtn_"+buttonName);
                 button.setBackground(Background.EMPTY);
-//                button.setDisable(true);
-
                 betCard.add(button, j,i);
             }
         }
@@ -171,5 +170,3 @@ public class GameSceneController implements EventHandler {
 
     }
 }
-
-//todo: enable betCard when no. of spots is selected
