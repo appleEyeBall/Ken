@@ -1,14 +1,17 @@
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 // TODO: Create new look menu in GameSceneController, and pass the menuBar into GameSceneController
@@ -22,6 +25,8 @@ public class Controller implements EventHandler{
     MenuBar gameSceneMenuBar;
     GameSceneController gameSceneController;
     int countLookChanges =0; // for back and forth Look changes
+    Menu newLookMenu;
+    Button startGameBtn;
 
     public Controller(Stage primaryStage){
         this.primaryStage = primaryStage;
@@ -30,9 +35,11 @@ public class Controller implements EventHandler{
 
         //TODO: delete these 2 lines of code. They make it so
         // I don't have to click to go tho game screen
+      
         //primaryStage.setScene(new Scene(gameScene,Util.width,Util.height));
         gameSceneController = new GameSceneController(gameScene);
         setNewLooks(false);
+
     }
 
 
@@ -58,11 +65,11 @@ public class Controller implements EventHandler{
         gameSceneMenuBar = new MenuBar(gameSceneMenu);
         gameScene.getChildren().add(gameSceneMenuBar);
 
+
         primaryStage.setTitle("Keno Game");
         primaryStage.setScene(new Scene(welcomeScene, Util.width, Util.height));
         primaryStage.show();
     }
-
 
     public void handle(Event event) {
 
@@ -85,6 +92,7 @@ public class Controller implements EventHandler{
                 setNewLooks(true);
             }
         }
+
 
         else {
             primaryStage.close();
@@ -120,12 +128,12 @@ public class Controller implements EventHandler{
     //Display the Rules and Odds of winning using an alert
     public void displayGameInfo(String message, String menuInfo){
 
+
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle(message);
         alert.setContentText(menuInfo);
         alert.show();
         alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
-
     }
 
 // change the looks of the game scene

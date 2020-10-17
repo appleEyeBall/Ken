@@ -1,3 +1,5 @@
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -7,6 +9,8 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -15,19 +19,33 @@ public class BetCardController implements EventHandler {
     HashSet<Integer> drawSelections  = new HashSet<Integer>();
     HashSet<Integer> intercepts  = new HashSet<Integer>();
 
+    Button pausePlayBtn;
     private int numberOfSpots;
     GridPane betCard;
+    BetCardAnimation betCardAnimation;
 
-    public void setUpVariables(String numberOfSpots, GridPane betCard){
+    public BetCardController(Button pausePlayBtn, GridPane betCard) {
+        this.pausePlayBtn = pausePlayBtn;
+        this.betCard = betCard;
+        makeThisClassTheEventHandler();     // ensure that this event handlers are set
+        betCardAnimation = new BetCardAnimation(this.betCard);
+    }
+
+    private void makeThisClassTheEventHandler(){
+        this.pausePlayBtn.setOnAction(this);
+        for (Node child: betCard.getChildren()){
+            ((Button) child).setOnAction(this);
+        }
+    }
+
+    public void chooseSpots(String numberOfSpots){
         bets.clear();
         this.numberOfSpots = Integer.valueOf(numberOfSpots);
-        this.betCard = betCard;
         removeAllBtnColors();
-
     }
 
     public void restart(){
-        // TODO: add other things to do after restart. (Play again should call this function)
+        // TODO: GARIMA Play-again button should call this function. Make sure it works as expected (disable required buttons too)
         bets.clear();
         drawSelections.clear();
         intercepts.clear();
@@ -35,22 +53,36 @@ public class BetCardController implements EventHandler {
 
     public void handle(Event event) {
         // any button on the grid is clicked
+        System.out.println("stuff");
         if(((Button) event.getSource()).getId().contains("gridBtn")){
-            pickSpotsManually(((Button) event.getSource()).getText());
+            pickSpotsManually(((Button) event.getSource()));
+        }
+
+        // continue/pause button is clicked
+        if (event.getSource() == pausePlayBtn){
+            System.out.println("pressed");
+            // play/pause, then change text on button as required
+            if (pausePlayBtn.getText() == Util.controlsBtnPause) {
+                betCardAnimation.pauseSpotPlaying();
+                pausePlayBtn.setText(Util.controlsBtnPlay);
+            }
+            else {
+                betCardAnimation.resumeSpotPlaying();
+                pausePlayBtn.setText(Util.controlsBtnPause);
+            }
         }
 
     }
 
-    public void pickSpotsManually(String value){
+    public void pickSpotsManually(Button btn){
+        String value = btn.getText();
         if (bets.size() < numberOfSpots){
             int number = Integer.valueOf(value);
             bets.add(number);
             System.out.println("num:" + numberOfSpots);
-            setColors(Util.user, number);
+            btn.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, null, null)));
         }
-        System.out.println(bets);
-
-
+        System.out.println("from pickSpotsManually func, bets are: "+bets);
     }
 
     public void pickRandomUserSpots(){
@@ -59,9 +91,9 @@ public class BetCardController implements EventHandler {
         while(bets.size() < numberOfSpots){
             int number = new Random().nextInt(80)+1;
             bets.add(number);
-            setColors(Util.user, number);
         }
         System.out.println(bets);
+        betCardAnimation.playSpots(new ArrayList<Integer>(bets), Util.user);
     }
 
     public void pickRandomComputerSpots(){
@@ -71,43 +103,24 @@ public class BetCardController implements EventHandler {
         while(drawSelections.size() < 20){
             int number = new Random().nextInt(80)+1;
             drawSelections.add(number);
-            setColors(Util.computer, number);
             if (isIntercept(number)) {
-                setColors(Util.intercept, number);
                 intercepts.add(number);
             }
         }
         System.out.println(drawSelections);
         System.out.println(bets);
         System.out.println(intercepts);
+        betCardAnimation.playSpots(new ArrayList<Integer>(drawSelections), Util.computer);
+
     }
 
     private boolean isIntercept(int pos) {
-        /* this function checks if player has also picked pos */
+        /* this function checks if user has also picked pos */
         if (bets.contains(pos)){
             return true;
         }
         return false;
     }
-
-    public void setColors(String type, int number){
-        /* type is either Util.user, Util.computer or Util.intercept */
-        System.out.println("number is "+number);
-        if (betCard == null) return;
-
-        Button button = ((Button) betCard.getChildren().get(number-1));
-        if (type.equals(Util.user)) {
-            button.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, null, null)));
-        }
-        else if (type.equals(Util.computer)) {
-            button.setBackground(new Background(new BackgroundFill(Color.INDIANRED, null, null)));
-        }
-        else if (type.equals(Util.intercept)){
-            button.setBackground(new Background(new BackgroundFill(Color.GREEN, null, null)));
-        }
-
-    }
-
 
     public void removeAllBtnColors(){
         for (Node child: betCard.getChildren()){
@@ -119,8 +132,12 @@ public class BetCardController implements EventHandler {
     public void removeComputerColors(){
         // remove all colors, then add back the user-spots colors
         removeAllBtnColors();
-        for (int val: bets){
-            setColors(Util.user, val);
+        for (Node child: betCard.getChildren()){
+            child = (Button) child;
+            ((Button) child).setBackground(Background.EMPTY);
+            if (bets.contains(Integer.valueOf(((Button) child).getText()))){
+                ((Button) child).setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, null, null)));
+            }
         }
     }
 
