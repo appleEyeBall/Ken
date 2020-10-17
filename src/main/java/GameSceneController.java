@@ -171,7 +171,6 @@ public class GameSceneController implements EventHandler {
                 betCard.add(button, j,i);
             }
         }
-
         betCard.setDisable(true);
         betCard.setAlignment(Pos.CENTER);
 

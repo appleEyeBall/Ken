@@ -35,7 +35,6 @@ public class BetCardAnimation implements EventHandler<ActionEvent>{
         this.timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.5), this)
         );
-
     }
 
     public void handle(ActionEvent event) {
