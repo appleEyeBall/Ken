@@ -41,7 +41,6 @@ public class GameSceneController implements EventHandler {
         this.gameScene.getChildren().add(footerRow);
         this.gameScene.setSpacing(Util.spaceBtwRows);
 
-
     }
 
     public void handle(Event event) {
@@ -91,7 +90,6 @@ public class GameSceneController implements EventHandler {
         playAgainBtn.setOnAction(this);
         scoreLabel = new Label("Score: $");
         scoreValue = new Label("720");
-
         controlsBox.getChildren().addAll(continueBtn, playAgainBtn);
         scoreBox.getChildren().addAll(scoreLabel, scoreValue);
 
@@ -169,4 +167,5 @@ public class GameSceneController implements EventHandler {
         betCard.setAlignment(Pos.CENTER);
 
     }
+
 }
