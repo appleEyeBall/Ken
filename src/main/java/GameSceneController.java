@@ -8,7 +8,7 @@ import javafx.scene.layout.*;
 public class GameSceneController implements EventHandler {
     VBox gameScene;
     HBox firstRow;
-    Button continueBtn;
+    Button pausePlayBtn;
     Button playAgainBtn;
     HBox footerRow;
     Label scoreLabel;
@@ -33,7 +33,7 @@ public class GameSceneController implements EventHandler {
         createBetCard();
         createFooterRow();
         this.gameScene = gameScene;
-        this.betCardController = new BetCardController(continueBtn, betCard);
+        this.betCardController = new BetCardController(pausePlayBtn, betCard);
         this.gameScene.getChildren().add(firstRow);
         this.gameScene.getChildren().add(spotsBox);
         this.gameScene.getChildren().add(drawingsRow);
@@ -84,13 +84,13 @@ public class GameSceneController implements EventHandler {
         firstRow = new HBox();
         HBox controlsBox = new HBox();  // will contain first 2 buttons
         HBox scoreBox = new HBox();     // will contain "Score: $7200"
-        continueBtn = new Button("Pause");
+        pausePlayBtn = new Button("Pause");
         playAgainBtn = new Button("Play again");
-        continueBtn.setId("controls");
+        pausePlayBtn.setId("controls");
         playAgainBtn.setOnAction(this);
         scoreLabel = new Label("Score: $");
         scoreValue = new Label("720");
-        controlsBox.getChildren().addAll(continueBtn, playAgainBtn);
+        controlsBox.getChildren().addAll(pausePlayBtn, playAgainBtn);
         scoreBox.getChildren().addAll(scoreLabel, scoreValue);
 
         controlsBox.setSpacing(Util.width/16);
