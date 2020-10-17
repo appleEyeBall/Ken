@@ -2,4 +2,4 @@
 Keno Game
 Discription is coming soon
 
-![alt text](KenoGame.jpg)
+![alt text](KenoGame.JPG)
