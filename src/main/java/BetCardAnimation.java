@@ -14,16 +14,16 @@ import java.util.ArrayList;
 
 public class BetCardAnimation implements EventHandler<ActionEvent>{
     /* This class is in charge of the animations on the bet card
-    * Instead of sets, this class uses Arraylist positions
-    * (Note: convert set like bets and intercepts to arraylist and pass to this class)
-    *                *** Explanation (for the curious) ***
-    * The class uses Arraylists because Arraylists can be treated like stacks.
-    * so each animation goes thus:
-    *       - Get one number from arraylist
-    *       - change the color of the grid position at that number
-    *       - pop the item
-    *       - repeat
-    * */
+     * Instead of sets, this class uses Arraylist positions
+     * (Note: convert set like bets and intercepts to arraylist and pass to this class)
+     *                *** Explanation (for the curious) ***
+     * The class uses Arraylists because Arraylists can be treated like stacks.
+     * so each animation goes thus:
+     *       - Get one number from arraylist
+     *       - change the color of the grid position at that number
+     *       - pop the item
+     *       - repeat
+     * */
 
     GridPane betCard;
     Timeline timeline;
@@ -35,7 +35,6 @@ public class BetCardAnimation implements EventHandler<ActionEvent>{
         this.timeline = new Timeline(
                 new KeyFrame(Duration.seconds(0.5), this)
         );
-
     }
 
     public void handle(ActionEvent event) {
