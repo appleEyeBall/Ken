@@ -1,8 +1,4 @@
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-
-import java.io.FileInputStream;
-import java.net.URL;
 
 public class Util {
 
@@ -14,7 +10,11 @@ public class Util {
     // these values are user as color types
     static String user = "user";
     static String computer = "computer";
-    static String intercept = "intercept";
+
+    static String controlsBtnPause = "Pause";
+    static String controlsBtnPlay = "Continue";
+    static String kenoImageURL = "https://lh3.googleusercontent.com/yw7Y7vidKLuVvYGEolEcheo36KnJeV4zksjxXD6mSueZJOeS8RdCOu6EwuJqVrtdIwI";
+
 
     static String gameRules = "The game of Keno is played by picking a set of numbers between 1 and 80. From there, 20 " +
             "numbers are drawn randomly. If the numbers drawn match the numbers you selected, you win. The amount of numbers " +
