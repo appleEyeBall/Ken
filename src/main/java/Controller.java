@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 // TODO: Create new look menu in GameSceneController, and pass the menuBar into GameSceneController
@@ -101,7 +102,6 @@ public class Controller implements EventHandler{
         oddsMenuItem.setId("oddsBtn");
         exitMenuItem.setId("exitBtn");
 
-
         rulesMenuItem.setOnAction(this);
         oddsMenuItem.setOnAction(this);
         exitMenuItem.setOnAction(this);
@@ -115,7 +115,6 @@ public class Controller implements EventHandler{
 
         return menuBar;
         // commit
-
     }
 
     //Display the Rules and Odds of winning using an alert
@@ -132,22 +131,39 @@ public class Controller implements EventHandler{
 // change the looks of the game scene
     public void setNewLooks(Boolean newLooksStatus){
 
+        // made the score labels' font bold
+        gameSceneController.scoreValue.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+        gameSceneController.scoreLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+        gameSceneController.drawingScoreLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+        gameSceneController.drawingScoreValue.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+
         if(newLooksStatus) { // if the button is pressed to set a new look
 
             gameSceneController.spotsBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
             gameSceneController.drawingsRow.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
-            gameSceneController.gameScene.setBackground(new Background(new BackgroundFill(Color.LEMONCHIFFON, CornerRadii.EMPTY, Insets.EMPTY)));
-            gameSceneController.betCard.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+            gameSceneController.gameScene.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+            gameSceneController.betCard.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
+            gameSceneController.scoreLabel.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
+            gameSceneController.scoreValue.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
+            gameSceneController.drawingScoreLabel.setBackground( Background.EMPTY);
+            gameSceneController.drawingScoreValue.setBackground(Background.EMPTY);
+
+
         }
         else{   // if the button is pressed to switch back to previous look
 
-            gameSceneController.gameScene.setBackground(new Background(new BackgroundFill (Color.LIGHTSKYBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-            gameSceneController.betCard.setBackground(new Background(new BackgroundFill (Color.LEMONCHIFFON, CornerRadii.EMPTY, Insets.EMPTY)));
-            gameSceneController.spotsBox.setBackground(new Background(new BackgroundFill (Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
-            gameSceneController.drawingsRow.setBackground(new Background(new BackgroundFill (Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
+            gameSceneController.gameScene.setBackground(new Background(new BackgroundFill (Color.BEIGE, CornerRadii.EMPTY, Insets.EMPTY)));
+            gameSceneController.betCard.setBackground(Background.EMPTY);
+            gameSceneController.spotsBox.setBackground(Background.EMPTY);
+            gameSceneController.drawingsRow.setBackground(Background.EMPTY);
+            gameSceneController.scoreLabel.setBackground(Background.EMPTY);
+            gameSceneController.scoreLabel.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+            gameSceneController.scoreValue.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+            gameSceneController.drawingScoreLabel.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+            gameSceneController.drawingScoreValue.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
+
         }
 
     }
-
 
 }
