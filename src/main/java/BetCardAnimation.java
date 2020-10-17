@@ -41,6 +41,7 @@ public class BetCardAnimation implements EventHandler<ActionEvent>{
     public void handle(ActionEvent event) {
         if (positions == null || positions.isEmpty()){
             return;
+            // TODO: GARIMA: Animation Complete. we should reactivate footer buttons here
         }
         System.out.println("event triggered "+BetCardAnimation.this.positions.get(0));
         // set color at that pos, then remove the pos from arrayList
@@ -48,6 +49,9 @@ public class BetCardAnimation implements EventHandler<ActionEvent>{
         BetCardAnimation.this.positions.remove(0);
     }
 
+    public Timeline getTimeline() {
+        return timeline;
+    }
 
     public void playSpots(ArrayList<Integer> positions, String type){
         /* entry point for the game play animation */

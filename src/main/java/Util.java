@@ -13,6 +13,7 @@ public class Util {
 
     static String controlsBtnPause = "Pause";
     static String controlsBtnPlay = "Continue";
+    static String kenoImageURL = "https://lh3.googleusercontent.com/yw7Y7vidKLuVvYGEolEcheo36KnJeV4zksjxXD6mSueZJOeS8RdCOu6EwuJqVrtdIwI";
 
 
     static String gameRules = "The game of Keno is played by picking a set of numbers between 1 and 80. From there, 20 " +
