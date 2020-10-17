@@ -26,7 +26,6 @@ public class Controller implements EventHandler{
     GameSceneController gameSceneController;
     int countLookChanges =0; // for back and forth Look changes
     Menu newLookMenu;
-    Button startGameBtn;
 
     public Controller(Stage primaryStage){
         this.primaryStage = primaryStage;
