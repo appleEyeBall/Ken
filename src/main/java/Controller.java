@@ -77,14 +77,12 @@ public class Controller implements EventHandler{
         }
         else if (((MenuItem)event.getSource()).getId() == "newLookMenu"){    //event handling for new Looks menu item in the game scene menu
             countLookChanges++;
-            if(countLookChanges%2 ==0){
+            if(countLookChanges%2 ==0){ //switch back to old look
                 setNewLooks(false);
             }
-            else{
+            else{            // set a new look
                 setNewLooks(true);
             }
-
-
         }
 
         else {
@@ -134,14 +132,14 @@ public class Controller implements EventHandler{
 // change the looks of the game scene
     public void setNewLooks(Boolean newLooksStatus){
 
-        if(newLooksStatus) {
+        if(newLooksStatus) { // if the button is pressed to set a new look
 
             gameSceneController.spotsBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
             gameSceneController.drawingsRow.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
             gameSceneController.gameScene.setBackground(new Background(new BackgroundFill(Color.LEMONCHIFFON, CornerRadii.EMPTY, Insets.EMPTY)));
             gameSceneController.betCard.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         }
-        else{
+        else{   // if the button is pressed to switch back to previous look
 
             gameSceneController.gameScene.setBackground(new Background(new BackgroundFill (Color.LIGHTSKYBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
             gameSceneController.betCard.setBackground(new Background(new BackgroundFill (Color.LEMONCHIFFON, CornerRadii.EMPTY, Insets.EMPTY)));
