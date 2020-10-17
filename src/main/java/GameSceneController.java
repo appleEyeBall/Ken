@@ -1,3 +1,4 @@
+
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -40,6 +41,7 @@ public class GameSceneController implements EventHandler {
         this.gameScene.getChildren().add(betCard);
         this.gameScene.getChildren().add(footerRow);
         this.gameScene.setSpacing(Util.spaceBtwRows);
+        initializeGameScene();
 
     }
 
@@ -48,7 +50,8 @@ public class GameSceneController implements EventHandler {
         if (event.getSource() instanceof ChoiceBox && ((ChoiceBox) event.getSource()).getId() == "spots"){
             betCardController.chooseSpots(numberOfSpots.getValue().toString());
             betCard.setDisable(false);
-
+            chooseRandomBtn.setDisable(false);
+            nextDrawBtn.setDisable(false);
         }
         //drawingsEvent
         else if (event.getSource() instanceof ChoiceBox && ((ChoiceBox) event.getSource()).getId() == "drawings"){
@@ -58,22 +61,26 @@ public class GameSceneController implements EventHandler {
         else if (event.getSource() == playAgainBtn){
             System.out.println("play again clicked");
             betCardController.restart();
+            initializeGameScene();   // initialize the game scene
+            drawingsValue.setValue("1");
+            numberOfSpots.setOnAction(this);
         }
         else if(((Button) event.getSource()).getId() == "chooseRandomBtn"){
             betCardController.pickRandomUserSpots();
         }
         else if(event.getSource() == nextDrawBtn){
             //TODO: GARIMA: update scores here (maybe create a function to do that)
+            betCardController.pickRandomComputerSpots();
             nextDrawBtnPresses++;
-            System.out.println("max is "+drawingsValue.getValue());
-            System.out.println("num of draws is "+nextDrawBtnPresses);
             if (nextDrawBtnPresses == Integer.valueOf(drawingsValue.getValue().toString())){
                 // disable buttons. end of round
                 nextDrawBtn.setDisable(true);
                 chooseRandomBtn.setDisable(true);
-                betCard.setDisable(true);
             }
-            betCardController.pickRandomComputerSpots();
+            // calculate and update the scores after each draw
+            drawingScoreValue.setText(calculateDrawScores());
+            scoreValue.setText(calculateTotalScores(drawingScoreValue, scoreValue));
+
         }
 
 
@@ -82,14 +89,16 @@ public class GameSceneController implements EventHandler {
     public void createFirstRow(){
         /* Create the first row*/
         firstRow = new HBox();
-        HBox controlsBox = new HBox();  // will contain first 2 buttons
+        HBox controlsBox = new HBox();  // 3.
+        // will contain first 2 buttons
         HBox scoreBox = new HBox();     // will contain "Score: $7200"
         continueBtn = new Button("Pause");
         playAgainBtn = new Button("Play again");
         continueBtn.setId("controls");
         playAgainBtn.setOnAction(this);
-        scoreLabel = new Label("Score: $");
-        scoreValue = new Label("720");
+        scoreLabel = new Label("You Won: $");
+        scoreValue = new Label("0");
+
         controlsBox.getChildren().addAll(continueBtn, playAgainBtn);
         scoreBox.getChildren().addAll(scoreLabel, scoreValue);
 
@@ -108,14 +117,14 @@ public class GameSceneController implements EventHandler {
         numberOfSpots.setId("spots");
 
         HBox drawingScoreBox = new HBox();      // will contain the drawing score
-        drawingScoreLabel = new Label("Drawing Score: $");
-        drawingScoreValue = new Label("300");
+        drawingScoreLabel = new Label("Draw Prize: $");
+        drawingScoreValue = new Label("0");
         drawingScoreBox.getChildren().addAll(drawingScoreLabel, drawingScoreValue);
         drawingScoreBox.setPadding(new Insets(0,0,0,Util.drawingBoxLeftPadding));
 
         numberOfSpots.getItems().addAll("1","4","8","10");
         spotsBox.getChildren().addAll(spotsLabel, numberOfSpots, drawingScoreBox);
-        spotsBox.setPadding(new Insets(0,Util.sidePadding,0,Util.sidePadding));
+        spotsBox.setPadding(new Insets(0,0,0,Util.sidePadding));
         numberOfSpots.setOnAction(this);
 
     }
@@ -162,10 +171,33 @@ public class GameSceneController implements EventHandler {
                 betCard.add(button, j,i);
             }
         }
-
         betCard.setDisable(true);
         betCard.setAlignment(Pos.CENTER);
 
+    }
+    // initialze the game scene everytime game starts (used for playAgain)
+    public void initializeGameScene(){
+        betCard.setDisable(true);
+        chooseRandomBtn.setDisable(true);
+        nextDrawBtn.setDisable(true);
+        drawingScoreValue.setText("0");
+        scoreValue.setText("0");
+
+    }
+    // calculates the prize $ after each draw and returns as a label string
+    public String calculateDrawScores(){
+        int drawScore = betCardController.intercepts.size()*100;
+        return String.valueOf(drawScore);
+    }
+
+    // calculates the total prize $ inclusive of all previous draw prizes
+    public String calculateTotalScores(Label drawingScoreValue, Label scoreValue){
+
+        int drawScore = Integer.parseInt(drawingScoreValue.getText());
+        int totalScore = Integer.parseInt(scoreValue.getText());
+        totalScore += drawScore;
+
+        return String.valueOf(totalScore);
     }
 
 }

@@ -9,7 +9,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -49,6 +48,8 @@ public class BetCardController implements EventHandler {
         bets.clear();
         drawSelections.clear();
         intercepts.clear();
+        removeAllBtnColors();
+
     }
 
     public void handle(Event event) {
@@ -79,10 +80,12 @@ public class BetCardController implements EventHandler {
         if (bets.size() < numberOfSpots){
             int number = Integer.valueOf(value);
             bets.add(number);
+
             System.out.println("num:" + numberOfSpots);
             btn.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, null, null)));
         }
         System.out.println("from pickSpotsManually func, bets are: "+bets);
+
     }
 
     public void pickRandomUserSpots(){
@@ -121,6 +124,7 @@ public class BetCardController implements EventHandler {
         }
         return false;
     }
+
 
     public void removeAllBtnColors(){
         for (Node child: betCard.getChildren()){
