@@ -33,7 +33,6 @@ public class Controller implements EventHandler{
         startGameBtn.setOnAction(this);
         gameSceneController = new GameSceneController(gameScene);
         setNewLooks(false);
-
     }
 
 
@@ -65,16 +64,20 @@ public class Controller implements EventHandler{
 
     }
 
+    public Button getStartGameBtn() {
+        return startGameBtn;
+    }
+
     public void handle(Event event) {
         if (event.getSource() == startGameBtn){
             primaryStage.setScene(new Scene(gameScene,Util.width,Util.height));
 
         }
         else if (((MenuItem)event.getSource()).getId() == "rulesBtn"){
-            displayGameInfo("Rules for the game:",Util.gameRules );
+            displayGameInfo("Rules for the game:", Util.gameRules );
         }
         else if (((MenuItem)event.getSource()).getId() == "oddsBtn"){
-            displayGameInfo("Odds of Winning the Game:",Util.oddsOfWinning);
+            displayGameInfo("Odds of Winning the Game:");
         }
         else if (((MenuItem)event.getSource()).getId() == "newLookMenu"){    //event handling for new Looks menu item in the game scene menu
             countLookChanges++;
@@ -91,7 +94,7 @@ public class Controller implements EventHandler{
 
     }
 
-    private MenuBar createMenuBar(){
+    public MenuBar createMenuBar(){
         // create menu items
         MenuItem rulesMenuItem = new MenuItem("Display the rules of the game");
         MenuItem oddsMenuItem = new MenuItem("Display the odds of winning");
@@ -116,22 +119,24 @@ public class Controller implements EventHandler{
     }
 
     //Display the Rules and Odds of winning using an alert
-    public Alert displayGameInfo(String message, String menuInfo){
+    public Alert displayGameInfo(String message, String... menuInfo){
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle(message);
 
         if (message.contains("Rules")){
             System.out.println("in Rules");
-            alert.setContentText(menuInfo);
+            alert.setContentText(menuInfo[0]);
+            alert.getDialogPane().setMinHeight(400);
         }
         else {
             System.out.println("in odds");
             Image pic = new Image("all-odds.jpg");
             ImageView v = new ImageView(pic);
+            alert.getDialogPane().setMinHeight(300);
             alert.setGraphic(v);
         }
 
-        alert.getDialogPane().setMinHeight(300);
+
         alert.show();
         alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
 
