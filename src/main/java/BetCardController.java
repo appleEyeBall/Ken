@@ -1,5 +1,3 @@
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -14,6 +12,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 public class BetCardController implements EventHandler {
+
     HashSet<Integer> bets  = new HashSet<Integer>();
     HashSet<Integer> drawSelections  = new HashSet<Integer>();
     HashSet<Integer> intercepts  = new HashSet<Integer>();
@@ -23,18 +22,31 @@ public class BetCardController implements EventHandler {
     GridPane betCard;
     BetCardAnimation betCardAnimation;
 
-    public BetCardController(Button pausePlayBtn, GridPane betCard) {
+    public BetCardController(Button pausePlayBtn, GridPane betCard, GameSceneController gameScene) {
         this.pausePlayBtn = pausePlayBtn;
         this.betCard = betCard;
-        makeThisClassTheEventHandler();     // ensure that this event handlers are set
-        betCardAnimation = new BetCardAnimation(this.betCard);
+        setThisAsEventHandler();     // ensure that this event handlers are set
+        betCardAnimation = new BetCardAnimation(this.betCard, gameScene);
     }
 
-    private void makeThisClassTheEventHandler(){
+    private void setThisAsEventHandler(){
         this.pausePlayBtn.setOnAction(this);
         for (Node child: betCard.getChildren()){
             ((Button) child).setOnAction(this);
         }
+    }
+
+    public String getBetSize(){
+        if (bets == null || bets.size() == 0){
+            return "0";
+        }
+        return String.valueOf(bets.size());
+    }
+    public String getInterceptsSize(){
+        if (intercepts == null || intercepts.size() == 0){
+            return "0";
+        }
+        return String.valueOf(intercepts.size());
     }
 
     public void chooseSpots(String numberOfSpots){
@@ -44,7 +56,7 @@ public class BetCardController implements EventHandler {
     }
 
     public void restart(){
-        // TODO: GARIMA Play-again button should call this function. Make sure it works as expected (disable required buttons too)
+        // restart the betCardController
         bets.clear();
         drawSelections.clear();
         intercepts.clear();
@@ -77,10 +89,16 @@ public class BetCardController implements EventHandler {
 
     public void pickSpotsManually(Button btn){
         String value = btn.getText();
-        if (bets.size() < numberOfSpots){
-            int number = Integer.valueOf(value);
+        int number = Integer.valueOf(value);
+        // deselect the spot if the number is in bets
+        // else, add to bets
+        if(bets.contains(number)){
+            bets.remove(number);
+            btn.setBackground(Background.EMPTY);
+            System.out.println("removed "+btn.getText());
+        }
+        else if (bets.size() < numberOfSpots){
             bets.add(number);
-
             System.out.println("num:" + numberOfSpots);
             btn.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, null, null)));
         }
@@ -106,7 +124,7 @@ public class BetCardController implements EventHandler {
         while(drawSelections.size() < 20){
             int number = new Random().nextInt(80)+1;
             drawSelections.add(number);
-            if (isIntercept(number)) {
+            if (isIntercept(bets, number)) {
                 intercepts.add(number);
             }
         }
@@ -117,7 +135,7 @@ public class BetCardController implements EventHandler {
 
     }
 
-    private boolean isIntercept(int pos) {
+    private boolean isIntercept(HashSet bets, int pos) {
         /* this function checks if user has also picked pos */
         if (bets.contains(pos)){
             return true;

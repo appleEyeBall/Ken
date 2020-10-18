@@ -2,6 +2,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -14,8 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-// TODO: Create new look menu in GameSceneController, and pass the menuBar into GameSceneController
-// TODO: Compartmentalize variables use less of parameter passings
+
 public class Controller implements EventHandler{
     Pane welcomeScene;
     VBox gameScene;
@@ -31,11 +31,6 @@ public class Controller implements EventHandler{
         this.primaryStage = primaryStage;
         this.setSceneUp();
         startGameBtn.setOnAction(this);
-
-        //TODO: delete these 2 lines of code. They make it so
-        // I don't have to click to go tho game screen
-      
-        //primaryStage.setScene(new Scene(gameScene,Util.width,Util.height));
         gameSceneController = new GameSceneController(gameScene);
         setNewLooks(false);
 
@@ -64,14 +59,13 @@ public class Controller implements EventHandler{
         gameSceneMenuBar = new MenuBar(gameSceneMenu);
         gameScene.getChildren().add(gameSceneMenuBar);
 
-
         primaryStage.setTitle("Keno Game");
         primaryStage.setScene(new Scene(welcomeScene, Util.width, Util.height));
         primaryStage.show();
+
     }
 
     public void handle(Event event) {
-
         if (event.getSource() == startGameBtn){
             primaryStage.setScene(new Scene(gameScene,Util.width,Util.height));
 
@@ -91,8 +85,6 @@ public class Controller implements EventHandler{
                 setNewLooks(true);
             }
         }
-
-
         else {
             primaryStage.close();
         }
@@ -121,18 +113,29 @@ public class Controller implements EventHandler{
         menuBar.getMenus().add(welcomeMenu);
 
         return menuBar;
-        // commit
     }
 
     //Display the Rules and Odds of winning using an alert
-    public void displayGameInfo(String message, String menuInfo){
-
-
+    public Alert displayGameInfo(String message, String menuInfo){
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle(message);
-        alert.setContentText(menuInfo);
+
+        if (message.contains("Rules")){
+            System.out.println("in Rules");
+            alert.setContentText(menuInfo);
+        }
+        else {
+            System.out.println("in odds");
+            Image pic = new Image("all-odds.jpg");
+            ImageView v = new ImageView(pic);
+            alert.setGraphic(v);
+        }
+
+        alert.getDialogPane().setMinHeight(300);
         alert.show();
         alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+
+        return alert;
     }
 
 // change the looks of the game scene
@@ -145,7 +148,6 @@ public class Controller implements EventHandler{
         gameSceneController.drawingScoreValue.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
 
         if(newLooksStatus) { // if the button is pressed to set a new look
-
             gameSceneController.spotsBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
             gameSceneController.drawingsRow.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
             gameSceneController.gameScene.setBackground(new Background(new BackgroundFill(Color.DARKBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -158,7 +160,6 @@ public class Controller implements EventHandler{
 
         }
         else{   // if the button is pressed to switch back to previous look
-
             gameSceneController.gameScene.setBackground(new Background(new BackgroundFill (Color.BEIGE, CornerRadii.EMPTY, Insets.EMPTY)));
             gameSceneController.betCard.setBackground(Background.EMPTY);
             gameSceneController.spotsBox.setBackground(Background.EMPTY);
@@ -168,7 +169,6 @@ public class Controller implements EventHandler{
             gameSceneController.scoreValue.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
             gameSceneController.drawingScoreLabel.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
             gameSceneController.drawingScoreValue.setBackground(new Background(new BackgroundFill(Color.YELLOW, CornerRadii.EMPTY, Insets.EMPTY)));
-
         }
 
     }

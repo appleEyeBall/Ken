@@ -1,3 +1,4 @@
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -23,24 +24,41 @@ public class BetCardAnimation implements EventHandler<ActionEvent>{
      *       - change the color of the grid position at that number
      *       - pop the item
      *       - repeat
+     *
+     * Object parameter is the class that will be implementing our OnBetCardAnimationComplete interface
+     * so that it'll be notified when animation completes
      * */
 
     GridPane betCard;
     Timeline timeline;
     ArrayList<Integer> positions;
     String type;
+    OnBetCardAnimationComplete animationComplete;
 
-    public BetCardAnimation(GridPane betCard) {
+    public BetCardAnimation(GridPane betCard, Object gameScene) {
         this.betCard = betCard;
         this.timeline = new Timeline(
-                new KeyFrame(Duration.seconds(0.5), this)
+                new KeyFrame(Duration.seconds(0.2), this)
         );
+        // handle interface that notifies everyone that the animation is done
+        animationComplete = (OnBetCardAnimationComplete) gameScene;
     }
 
     public void handle(ActionEvent event) {
         if (positions == null || positions.isEmpty()){
-            if (type == Util.computer){
+            if (type == Util.user){
+                animationComplete.reactivateButtons();
+                animationComplete.updateScores();
+            }
+            else if (type == Util.computer){
                 // TODO: GARIMA: Animation Complete. we should reactivate footer buttons here because footer buttons should be disabled during animated gamePlay
+
+                // notify everyone class that the animation has ended
+                // (hopefully the classes implement the interface)
+                animationComplete.reactivateButtons();
+                animationComplete.updateScores();
+                animationComplete.checkDrawsComplete();
+
             }
             return;
         }
@@ -48,6 +66,14 @@ public class BetCardAnimation implements EventHandler<ActionEvent>{
         // set color at that pos, then remove the pos from arrayList
         setColors(type, positions.get(0));
         BetCardAnimation.this.positions.remove(0);
+    }
+
+    /* This interface needs to be implemented by a class that needs to do something after the animation is completed */
+    public interface OnBetCardAnimationComplete{
+        public void reactivateButtons();
+        public void updateScores();
+        public void checkDrawsComplete();
+
     }
 
     public Timeline getTimeline() {
@@ -63,12 +89,14 @@ public class BetCardAnimation implements EventHandler<ActionEvent>{
         timeline.play();
     }
 
-    public void pauseSpotPlaying(){
+    public Animation.Status pauseSpotPlaying(){
         this.timeline.pause();
+        return timeline.getStatus();
     }
 
-    public void resumeSpotPlaying(){
+    public Animation.Status resumeSpotPlaying(){
         this.timeline.play();
+        return timeline.getStatus();
     }
 
     public void setColors(String type, int number){
