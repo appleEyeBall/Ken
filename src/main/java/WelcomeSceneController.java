@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+// This class sets up the welcome scene of the game that consists of a menu and start game button
 
 public class WelcomeSceneController implements EventHandler{
     Pane welcomeScene;
@@ -37,7 +38,7 @@ public class WelcomeSceneController implements EventHandler{
 
     @Override
     public void handle(Event event) {
-        if (event.getSource() == startGameBtn){
+        if (event.getSource() == startGameBtn){   // create the game scene when start game button is pressed
             this.callMain.loadGameScene();
         }
 

@@ -13,6 +13,7 @@ import java.util.Random;
 
 public class BetCardController implements EventHandler {
 
+    // create three sets that store with user bet spot selections;  computer draws and the common spots between the two
     HashSet<Integer> bets  = new HashSet<Integer>();
     HashSet<Integer> drawSelections  = new HashSet<Integer>();
     HashSet<Integer> intercepts  = new HashSet<Integer>();
@@ -68,7 +69,7 @@ public class BetCardController implements EventHandler {
     @Override
     public void handle(Event event) {
         // any button on the grid is clicked
-        System.out.println("stuff");
+
         if(((Button) event.getSource()).getId().contains("gridBtn")){
             pickSpotsManually(((Button) event.getSource()));
         }
@@ -105,6 +106,7 @@ public class BetCardController implements EventHandler {
         betCardAnimation.playSpots(new ArrayList<Integer>(bets), Util.TYPE_USER);
     }
 
+    // this function generates 20 random spots on the bet card and ensures no repetitions
     public void pickRandomComputerSpots(){
         drawSelections.clear();
         intercepts.clear();
@@ -122,6 +124,7 @@ public class BetCardController implements EventHandler {
         betCardAnimation.playSpots(new ArrayList<Integer>(drawSelections), Util.TYPE_COMPUTER);
 
     }
+
 
     private boolean isIntercept(HashSet bets, int pos) {
         /* this function checks if user has also picked pos */

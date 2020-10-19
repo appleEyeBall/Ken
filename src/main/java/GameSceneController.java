@@ -8,6 +8,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+//This class sets up the UI for the main game screen and also handles all the buttons and menu options
+
 public class GameSceneController implements EventHandler, BetCardAnimation.OnBetCardAnimationComplete{
     VBox gameScene;
     private HBox firstRow;
@@ -29,7 +31,7 @@ public class GameSceneController implements EventHandler, BetCardAnimation.OnBet
     private int nextDrawBtnPresses = 0;
     private int countLookChanges =0; // for back and forth Look changes
 
-
+// initialize and set up the game screen
     public GameSceneController(VBox gameScene) {
         createFirstRow();
         createSpotsRow();
@@ -47,6 +49,7 @@ public class GameSceneController implements EventHandler, BetCardAnimation.OnBet
     @Override
     public void handle(Event event) {
         //event handling for "new Looks" menu item
+
         if ( event.getSource() instanceof MenuItem && ((MenuItem)event.getSource()).getId() == "newLookMenu"){
             //even-number-> default look, odd-number-> new-look
             countLookChanges++;
@@ -109,13 +112,14 @@ public class GameSceneController implements EventHandler, BetCardAnimation.OnBet
         }
 
     }
-
+// disable the next draw and choose random selection button while playing the game
     public boolean disableFooter(){
         nextDrawBtn.setDisable(true);
         chooseRandomBtn.setDisable(true);
         return (chooseRandomBtn.isDisabled() && nextDrawBtn.isDisabled());
     }
 
+    // create the first row that consists of : play/pause button, play again button and the score
     public HBox createFirstRow(){
         /* Create the first row*/
         firstRow = new HBox();
@@ -144,6 +148,7 @@ public class GameSceneController implements EventHandler, BetCardAnimation.OnBet
         return firstRow;
     }
 
+    //this function creates a choicebox that takes input from the user for the number of spots (1,4,8 or 10)
     public HBox createSpotsRow (){
         Label spotsLabel = new Label("Number of spots: ");
         spotsBox = new HBox();
@@ -179,6 +184,7 @@ public class GameSceneController implements EventHandler, BetCardAnimation.OnBet
         return drawingsRow;
     }
 
+    //this function creates buttons that allow the user to- choose random buttons and move to the next draw
     public HBox createFooterRow() {
         /* The row that is at the very bottom*/
         footerRow = new HBox();
@@ -198,6 +204,7 @@ public class GameSceneController implements EventHandler, BetCardAnimation.OnBet
         return footerRow;
     }
 
+    //this function creates the 8*10 bet card
     public GridPane createBetCard(){
         betCard = new GridPane();
         for(int i=0;i<10;i++){
@@ -210,12 +217,14 @@ public class GameSceneController implements EventHandler, BetCardAnimation.OnBet
             }
         }
         betCard.setDisable(true);
-        betCard.setAlignment(Pos.CENTER);
+        betCard.setAlignment(Pos.CENTER);  // align the betcard to the center of the screen
 
         return betCard;
 
     }
 
+// initialize the game scene : disable the betcard grid, the footer row and initialize the draw and spots choiceboxes
+// with null selections
 
     public void initializeGameScene(){      // make the game look like the first time
         betCardController.restart();
@@ -236,7 +245,7 @@ public class GameSceneController implements EventHandler, BetCardAnimation.OnBet
         numberOfSpots.setOnAction(this);
     }
 
-
+// this function creates styles for two looks which can be easily switched back and forth by the user
     public void setNewLooks(Boolean newLooksStatus){        // change the looks of the game scene
 
         // made the score labels' font bold
@@ -277,6 +286,7 @@ public class GameSceneController implements EventHandler, BetCardAnimation.OnBet
         nextDrawBtn.setDisable(false);
     }
 
+    // update the scores after each draw is completed
     @Override
     public void updateScores() {
         // update drawings value

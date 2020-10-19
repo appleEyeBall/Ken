@@ -1,10 +1,8 @@
 public class ScoresCalculator {
     /*
-    * This static class just calculates the drawings score and total score
+    * This static class calculates the drawings score and total score
     * based on the rules in the odds image
     * */
-
-
 
     public static String calculateDrawScores(String numberOfSpots, String interceptsCount){
         String drawScore = "0";
@@ -81,6 +79,7 @@ public class ScoresCalculator {
         return drawScore;
     }
 
+    // using the scores from each draw, this function calculates the total prize after the game ends
     public static String calculateTotalScores(String numberOfSpots, String interceptCount,  String lastScoreVal){
         System.out.println("in totalScores spots Type is "+numberOfSpots);
         System.out.println("in totalScores Intercepts is "+interceptCount);
