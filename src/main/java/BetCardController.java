@@ -17,20 +17,18 @@ public class BetCardController implements EventHandler {
     HashSet<Integer> drawSelections  = new HashSet<Integer>();
     HashSet<Integer> intercepts  = new HashSet<Integer>();
 
-    Button pausePlayBtn;
     private int numberOfSpots;
     GridPane betCard;
-    BetCardAnimation betCardAnimation;
+    private BetCardAnimation betCardAnimation;
 
-    public BetCardController(Button pausePlayBtn, GridPane betCard, GameSceneController gameScene) {
-        this.pausePlayBtn = pausePlayBtn;
+    public BetCardController(GridPane betCard, Object gameScene) {
         this.betCard = betCard;
         setThisAsEventHandler();     // ensure that this event handlers are set
         betCardAnimation = new BetCardAnimation(this.betCard, gameScene);
     }
 
     private void setThisAsEventHandler(){
-        this.pausePlayBtn.setOnAction(this);
+//        this.pausePlayBtn.setOnAction(this);
         for (Node child: betCard.getChildren()){
             ((Button) child).setOnAction(this);
         }
@@ -48,6 +46,9 @@ public class BetCardController implements EventHandler {
         }
         return String.valueOf(intercepts.size());
     }
+    public BetCardAnimation getBetCardAnimation(){
+        return betCardAnimation;
+    }
 
     public void chooseSpots(String numberOfSpots){
         bets.clear();
@@ -64,27 +65,13 @@ public class BetCardController implements EventHandler {
 
     }
 
+    @Override
     public void handle(Event event) {
         // any button on the grid is clicked
         System.out.println("stuff");
         if(((Button) event.getSource()).getId().contains("gridBtn")){
             pickSpotsManually(((Button) event.getSource()));
         }
-
-        // continue/pause button is clicked
-        if (event.getSource() == pausePlayBtn){
-            System.out.println("pressed");
-            // play/pause, then change text on button as required
-            if (pausePlayBtn.getText() == Util.controlsBtnPause) {
-                betCardAnimation.pauseSpotPlaying();
-                pausePlayBtn.setText(Util.controlsBtnPlay);
-            }
-            else {
-                betCardAnimation.resumeSpotPlaying();
-                pausePlayBtn.setText(Util.controlsBtnPause);
-            }
-        }
-
     }
 
     public void pickSpotsManually(Button btn){
@@ -106,6 +93,7 @@ public class BetCardController implements EventHandler {
 
     }
 
+
     public void pickRandomUserSpots(){
         bets.clear();
         removeAllBtnColors();
@@ -114,7 +102,7 @@ public class BetCardController implements EventHandler {
             bets.add(number);
         }
         System.out.println(bets);
-        betCardAnimation.playSpots(new ArrayList<Integer>(bets), Util.user);
+        betCardAnimation.playSpots(new ArrayList<Integer>(bets), Util.TYPE_USER);
     }
 
     public void pickRandomComputerSpots(){
@@ -131,7 +119,7 @@ public class BetCardController implements EventHandler {
         System.out.println(drawSelections);
         System.out.println(bets);
         System.out.println(intercepts);
-        betCardAnimation.playSpots(new ArrayList<Integer>(drawSelections), Util.computer);
+        betCardAnimation.playSpots(new ArrayList<Integer>(drawSelections), Util.TYPE_COMPUTER);
 
     }
 

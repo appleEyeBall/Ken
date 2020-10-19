@@ -2,7 +2,6 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
@@ -38,7 +37,7 @@ public class BetCardAnimation implements EventHandler<ActionEvent>{
     public BetCardAnimation(GridPane betCard, Object gameScene) {
         this.betCard = betCard;
         this.timeline = new Timeline(
-                new KeyFrame(Duration.seconds(0.2), this)
+                new KeyFrame(Duration.seconds(Util.GAMEPLAY_SPEED), this)
         );
         // handle interface that notifies everyone that the animation is done
         animationComplete = (OnBetCardAnimationComplete) gameScene;
@@ -46,13 +45,11 @@ public class BetCardAnimation implements EventHandler<ActionEvent>{
 
     public void handle(ActionEvent event) {
         if (positions == null || positions.isEmpty()){
-            if (type == Util.user){
+            if (type == Util.TYPE_USER){
                 animationComplete.reactivateButtons();
                 animationComplete.updateScores();
             }
-            else if (type == Util.computer){
-                // TODO: GARIMA: Animation Complete. we should reactivate footer buttons here because footer buttons should be disabled during animated gamePlay
-
+            else if (type == Util.TYPE_COMPUTER){
                 // notify everyone class that the animation has ended
                 // (hopefully the classes implement the interface)
                 animationComplete.reactivateButtons();
@@ -108,10 +105,10 @@ public class BetCardAnimation implements EventHandler<ActionEvent>{
         if (isIntercept(button)){
             button.setBackground(new Background(new BackgroundFill(Color.DARKSEAGREEN, null, null)));
         }
-        else if (type.equals(Util.user)) {
+        else if (type.equals(Util.TYPE_USER)) {
             button.setBackground(new Background(new BackgroundFill(Color.CORNFLOWERBLUE, null, null)));
         }
-        else if (type.equals(Util.computer)) {
+        else if (type.equals(Util.TYPE_COMPUTER)) {
             button.setBackground(new Background(new BackgroundFill(Color.INDIANRED, null, null)));
         }
 

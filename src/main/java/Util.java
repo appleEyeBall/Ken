@@ -2,18 +2,18 @@ import javafx.scene.paint.Color;
 
 public class Util {
 
-    static int width = 750;
-    static int height = 600;
-    static int spaceBtwRows = 15;
-    static int sidePadding = 10;
-    static int labelRightPadding = 20;
-    static int drawingBoxLeftPadding = 410;
-    // these values are used as color types
-    static String user = "user";
-    static String computer = "computer";
+    static int WIDTH = 750;
+    static int HEIGHT = 600;
+    static int SPACE_BTW_ROWS = 15;
+    static int SIDE_PADDING = 10;
+    static int LABEL_RIGHT_PADDING = 20;
+    static int DRAWING_BOX_LEFT_PADDING = 410;
+    static String TYPE_USER = "user";
+    static String TYPE_COMPUTER = "computer";
 
-    static String controlsBtnPause = "Pause";
-    static String controlsBtnPlay = "Continue";
+    static String CONTROLS_BTN_PAUSE = "Pause";
+    static String CONTROLS_BTN_PLAY = "Continue";
+    static double GAMEPLAY_SPEED = 0.8;
 
 
     static String gameRules = "Keno is a popular gambling game offered in many modern casinos and also offered as a\n" +
